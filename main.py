@@ -72,18 +72,54 @@ def verify_encrpyt_input(image_path,image_file_type):
         filetype = False;
     return (path and filetype);
     
+
+def list_image_details(allEncryptImageDict):
+    # Find the maximum lengths for each column
+    max_name_length = max(len(name) for name in allEncryptImageDict.keys())
+    max_password_length = max(len(details[2]) for details in allEncryptImageDict.values())
+    max_file_type_length = max(len(details[3]) for details in allEncryptImageDict.values())
+
+
+    # Print header
+    print(f"+{'-' * (105)}+")
+    print(f"| {' ' * 5}{'Image Name':^{23}}{' ' * 5} | {' ' * 5}{'Password Length':^{23}}{' ' * 5} | {' ' * 5}{'Image File Type':^{21}}{' ' * 5} |")
+    print(f"+{'-' * (105)}+")
+
+    # Print rows
+    for name, details in allEncryptImageDict.items():
+        key, ciphertext, password, image_file_type = details
+        
+        # if length of name is longer than table
+        if(len(name) > 33):
+            name = name[:-5]+ "...";
+            
+        masked_password = "*" * len(password)
+        if(len(masked_password) > 27):
+            # set constant of '*' if it overflow
+            masked_password = '*' * 34;
+            masked_password = masked_password[:-11] + "..." + " (" + str(len(password)) + ")";
+            
+        
+        print(f"| {name:^{33}} | {masked_password:^{33}} | {image_file_type:^{31}} |")
+
+    # Print bottom border
+    print(f"+{'-' * (105)}+");
+    
     
 # MAIN ZONE
 if __name__ == "__main__":
     allEncryptImageDict = {};
+    print();
+    print(" ******** HOW TO USE IN README.md ******** ");
+    print();
     
     while True:
         print('---------- Image Secure System ----------');
         print('Type 1: Encrypt the image with AES.');
         print('Type 2: Decrypt the image.');
         print('Type 3: List all encrpyted image name.');
-        print('Type 4: Show Cipher Text and Key');
-        print('Type x: EXIT.');
+        print('Type 4: Show Cipher Text and Key.');
+        print('Type x: EXIT');
         
         
         x = str(input('>>')).lower();
@@ -93,7 +129,7 @@ if __name__ == "__main__":
             image_path = str(input('Put your image path here >>'));
             image_name = str(input('Image name >>'));
             image_file_type = str(input('Image type (.png .jpeg .jpg .bmp) >>'));
-            password = str(input('Password For Master Key (Generate by SHA256) >>'));
+            password = str(input('Password For Master Key (Generate by SHA256) [Must remember] >>'));
             
             # this step we verify some of input
             if(verify_encrpyt_input(image_path,image_file_type)):
@@ -127,14 +163,23 @@ if __name__ == "__main__":
                 outputfilename = image_name+allEncryptImageDict[image_name][3];
                 
                 with open(outputfilename, 'wb') as f:
-                    f.write(decrypted_data);
+                    f.write("./Decrypted_image"+decrypted_data);
                 print("Image decrypted successfully.")
             else:
                 # If authenticate failed
                 continue;
             
-        # elif(x == '3'):
-        #     ei
+        elif(x == '3'):
+            print();
+            time.sleep(1);
+            list_image_details(allEncryptImageDict);
+            time.sleep(1);
+            print();
+            continue;
+        
+        elif(x == '4'):
+            continue;
+        
         elif(x == 'x'):
             print('Exiting . . .');
             time.sleep(2);
