@@ -94,6 +94,7 @@ def list_image_details(allEncryptImageDict):
     uploadcheck = (details[4] for details in allEncryptImageDict.values())
 
     # Print header
+    print(f"If you uploaded the image, the default password is set to 'ICT555'")
     print(f"+{'-' * (115)}+")
     print(f"| {' ' * 5}{'Image Name':^{23}}{' ' * 5} | {' ' * 5}{'Password Length':^{23}}{' ' * 5} | {' ' * 5}{'Image File Type':^{21}}{' ' * 5} | {'Upload':^{7}} |")
     print(f"+{'-' * (115)}+")
@@ -136,7 +137,7 @@ if __name__ == "__main__":
     print();
     
     while True:
-        print('---------- Image Secure System ----------');
+        print('---------- Secure Image System ----------');
         print('Type 1: Encrypt the image with AES.');
         print('Type 2: Decrypt the image.');
         print('Type 3: List all encrpyted image name.');
@@ -153,6 +154,7 @@ if __name__ == "__main__":
             image_name = str(input('Image name >>'));
             image_file_type = str(input('Image type (.png .jpeg .jpg .bmp) >>'));
             password = str(input('Password For Master Key (Generate by SHA256) [Must remember] >>'));
+            print();
             upload = "";
             
             # this step we verify some of input
@@ -185,8 +187,7 @@ if __name__ == "__main__":
                 
                 # always change it into bytes by using .encode("utf-8")
                 key, ciphertext = objectyouwanttoDecrypt[0],objectyouwanttoDecrypt[1];
-                # print(key);
-                # x = str(key);
+                
                 
                 if(type(key) != bytes or type(ciphertext) != bytes):
                     # In json cipher text and key are in the wrong format
@@ -202,7 +203,12 @@ if __name__ == "__main__":
                 
                 with open("./Decrypted_image/"+outputfilename, 'wb') as f:
                     f.write(decrypted_data);
-                print("Image decrypted successfully.")
+                
+                print();
+                print(f"** {image_name} decrypted successfully. **")
+                print();
+                time.sleep(1);
+                
             else:
                 # If authenticate failed
                 continue;
@@ -244,7 +250,11 @@ if __name__ == "__main__":
                 with open(file_path, "w") as json_file:
                     json.dump(data, json_file)
 
-                print("Data has been written to", file_path)
+                print();
+                print("Data has been written to", file_path);
+                print();
+                time.sleep(1);
+                
                 
             else:
                 # If authenticate failed
@@ -276,7 +286,28 @@ if __name__ == "__main__":
             allEncryptImageDict[name] = tempObject;
             
             if(option == "2"):
-                print('decrypting')
+                time.sleep(1);
+                print();
+                print('decrypting ...');
+                print();
+                time.sleep(1);
+                
+                key, ciphertext = convert_string_to_bytes(key),convert_string_to_bytes(cipherdata)
+     
+                # Decrypting data
+                decrypted_data = decrypt_image(ciphertext, key);
+
+                # Writing decrypted data to a new image file
+                outputfilename =  name+filetype;
+                
+                with open("./Decrypted_image/"+outputfilename, 'wb') as f:
+                    f.write(decrypted_data);
+                
+                print();
+                print(f"** add & decrypted {name} successfully **")
+                print();
+                time.sleep(1);
+                
             
             continue;
         

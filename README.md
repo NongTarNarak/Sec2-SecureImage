@@ -1,6 +1,17 @@
 Secure Image System
 Welcome to the Secure Image System, powered by AES encryption and SHA-256 hashing.
 
+>Folder
+    CipherText:
+        > To export the encrypted images from the system in JSON format.
+        > You can decrypt the image by option: 5 from this folder.
+
+    Decrypted_image:
+        > All decrypted images will be stored in this designated folder.
+    
+    PlainText_image:
+        > Begin by placing all the images you wish to encrypt into this designated folder.
+
 How to Use:
 >>Option 1: Encrypt an Image
     1) Upload the image you want to encrypt to the folder named "PlainText_image"
