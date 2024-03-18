@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Encryption</title>
+<style>
+    /* Add your CSS styles here */
+</style>
+</head>
+<body>
+<h1>Image Encryption</h1>
+<input type="file" id="fileInput" accept=".jpg, .jpeg, .png, .bmp">
+<button onclick="encryptImage()">Encrypt</button>
+<button onclick="decryptImage()">Decrypt</button>
+<div id="imageContainer">
+    <img id="originalImage" alt="Original Image">
+    <img id="encryptedImage" alt="Encrypted Image">
+    <img id="decryptedImage" alt="Decrypted Image">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+<script>
+    function encryptImage() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            const imageData = event.target.result;
+            encryptAES(imageData, function(encryptedData) {
+                document.getElementById('encryptedImage').src = encryptedData;
+            });
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    function decryptImage() {
+        const encryptedImageData = document.getElementById('encryptedImage').src;
+        decryptAES(encryptedImageData, function(decryptedData) {
+            document.getElementById('decryptedImage').src = decryptedData;
+        });
+    }
+
+    function encryptAES(data, callback) {
+        const key = CryptoJS.enc.Hex.parse('000102030405060708090a0b0c0d0e0f'); // Example key, you should generate a random key
+        const iv = CryptoJS.enc.Hex.parse('101112131415161718191a1b1c1d1e1f'); // Example IV, you should generate a random IV
+        const encrypted = CryptoJS.AES.encrypt(data, key, { iv: iv });
+        callback(encrypted.toString());
+    }
+
+    function decryptAES(data, callback) {
+        const key = CryptoJS.enc.Hex.parse('000102030405060708090a0b0c0d0e0f'); // Same key used for encryption
+        const iv = CryptoJS.enc.Hex.parse('101112131415161718191a1b1c1d1e1f'); // Same IV used for encryption
+        const decrypted = CryptoJS.AES.decrypt(data, key, { iv: iv });
+        const decryptedData = decrypted.toString(CryptoJS.enc.Utf8);
+        callback(decryptedData);
+    }
+</script>
+</body>
+</html>

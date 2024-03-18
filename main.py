@@ -1,7 +1,9 @@
+# Pakkaphan Permvanitkul 6587094
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
 from hashlib import sha256
+
 import time # use for delaying the program
 import json # use for import and export json file format
 # Cipher text and Key from AES is bytes type and when we export that we must change into string type
@@ -138,8 +140,8 @@ if __name__ == "__main__":
     
     while True:
         print('---------- Secure Image System ----------');
-        print('Type 1: Encrypt the image with AES.');
-        print('Type 2: Decrypt the image.');
+        print('Type 1: Save the image with AES.');
+        print('Type 2: Get the image.');
         print('Type 3: List all encrpyted image name.');
         print('Type 4: Export Cipher image and Key.');
         print('Type 5: Insert Cipher image to the system.')
