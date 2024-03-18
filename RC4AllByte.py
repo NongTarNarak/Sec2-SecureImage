@@ -104,10 +104,11 @@ if __name__ == "__main__":
 
     # 4 save out with json file format
     data = {
-                "name": image_name,
-                "cipher": str(ciphertext), #use ast encode from string to byte
-                "key": str(encrypted_aesKey) #finding the method to make string back to array byte
-            }
+                    "name": image_name,
+                    "cipher": str(ciphertext),
+                    "encrypted_aesKey": str(encrypted_aesKey),
+                    "filetype": '.png'
+                }
 
     with open('jsontesting.json', "w") as json_file:
             json.dump(data, json_file)
@@ -118,7 +119,7 @@ if __name__ == "__main__":
     with open('jsontesting.json', "r") as json_file:
         data = json.load(json_file)
     
-    name,cipherdata,key = data["name"],data["cipher"],data["key"];
+    name,cipherdata,key = data["name"],data["cipher"],data["encrypted_aesKey"];
     
     # 2 first of all make key from string-bytearray type to bytearray type
     bytearraytypeKeyThatencryptedwithRC4 = bytearray(convert_string_to_bytes(key[10:-1]))
