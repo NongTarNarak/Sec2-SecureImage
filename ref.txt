@@ -1,0 +1,17 @@
+Crypto.Cipher:
+    https://pycryptodome.readthedocs.io/en/latest/src/cipher/cipher.html
+
+ast:
+    https://docs.python.org/3/library/ast.html
+
+hashlib module (SHA-256):
+    https://docs.python.org/3/library/hashlib.html
+
+time:
+    https://docs.python.org/3/library/time.html
+
+Json:
+    https://www.w3schools.com/python/python_json.asp
+
+OS:
+    https://www.w3schools.com/python/module_os.asp
